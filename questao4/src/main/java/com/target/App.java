@@ -9,7 +9,6 @@ import java.io.*;
 public class App {
 
     private static String dbUrl = "jdbc:sqlite:app.db";
-    private static String dbDriver = "org.sqlite.JDBC";
     private static String schemaPath = "schema.sql";
     private static String insertPath = "insert.sql";
     private static String queryPath = "query.sql";
@@ -18,7 +17,8 @@ public class App {
         connection();
         runScript(schemaPath);
         runScript(insertPath);
-        runQuery(queryPath);  
+        runQuery(queryPath);
+        close(); 
     }
         
   private static void runScript(String scriptPath) {
@@ -112,5 +112,18 @@ public class App {
            } catch ( Exception e) {
             System.out.println(e.getMessage());
            }
+    }
+
+
+    public static void close() {
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(dbUrl);
+            conn.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+       
     }
 }
